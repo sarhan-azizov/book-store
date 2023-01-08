@@ -1,8 +1,16 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
+import { Logger } from '@nestjs/common';
 
-async function bootstrap() {
+import { AppModule } from './app.module';
+import { DOTENV, middleware, swagger } from './configs';
+
+(async function () {
   const app = await NestFactory.create(AppModule);
-  await app.listen(3000);
-}
-bootstrap();
+
+  middleware(app);
+  swagger(app);
+
+  await app.listen(DOTENV.app.port);
+
+  Logger.log(app.getUrl(), 'Book Store Service started!');
+})();

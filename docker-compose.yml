@@ -1,42 +1,42 @@
 version: '3.8'
 services:
   db:
+    container_name: postgres_container
     image: postgres:14.1-alpine
-    env_file: .env
     restart: always
     networks:
       - local
     environment:
       - POSTGRES_USER=${DB_USERNAME}
       - POSTGRES_PASSWORD=${DB_PASSWORD}
-      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_DB=${DB_DATABASE}
     ports:
-      - $DB_PORT:$DB_PORT
+      - "${DB_PORT}:${DB_PORT}"
     volumes:
       - ./data:/var/lib/postgresql/data
     healthcheck:
-      test: [ "CMD", "pg_isready", "-q", "-d", "${DB_NAME}", "-U", "${DB_USERNAME}" ]
-      timeout: 45s
-      interval: 10s
-      retries: 10
+        test: [ "CMD", "pg_isready", "-q", "-d", "${DB_DATABASE}", "-U", "${DB_USERNAME}" ]
+        timeout: 45s
+        interval: 10s
+        retries: 10
 
   book-store:
+    container_name: book_store_container
     build:
       context: .
       target: builder
-    env_file: .env
+    networks:
+      - local
     depends_on:
       db:
         condition: service_healthy
-    networks:
-      - local
+    env_file: .env
     volumes:
       - ./src:/app/src
-      - ./dist:/app/book-store
-    container_name: book-store
+      - ./dist:/app/dist2
     ports:
-      - $PORT:3000
-      - 9229:9229
+      - "${PORT}:${PORT}"
+      - "9229:9229"
     command: sh -c "npm run start"
 
 networks:

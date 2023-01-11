@@ -1,8 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-import { CreateDataSourceRequestDTO } from './create-data-source-request.dto';
+import { CreateCityRequestDTO } from './create-city-request.dto';
 
-export class DataSourceResponseDTO extends CreateDataSourceRequestDTO {
+export class CityResponseDTO extends CreateCityRequestDTO {
   @ApiProperty({
     required: true,
     type: 'string',

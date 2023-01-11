@@ -1,2 +1,2 @@
 export { HealthModule } from './health';
-export { DataSourcesModule } from './data-sources';
+export { CitiesModule, CityEntity } from './cities';

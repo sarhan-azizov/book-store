@@ -1,14 +1,16 @@
 import { join } from 'path';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { AutomapperModule } from '@automapper/nestjs';
+import { classes } from '@automapper/classes';
 
 import { DOTENV } from './configs';
-import { HealthModule, DataSourcesModule } from './modules';
+import { HealthModule, CitiesModule } from './modules';
 
 @Module({
   imports: [
     HealthModule,
-    DataSourcesModule,
+    CitiesModule,
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: DOTENV.database.host,
@@ -19,6 +21,9 @@ import { HealthModule, DataSourcesModule } from './modules';
       logging: DOTENV.database.logging,
       synchronize: DOTENV.database.synchronize,
       entities: [join(__dirname, '**', '*.entity.{ts,js}')],
+    }),
+    AutomapperModule.forRoot({
+      strategyInitializer: classes(),
     }),
   ],
   controllers: [],

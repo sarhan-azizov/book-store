@@ -1,1 +1,1 @@
-export * from './1668792815469-InitTables';
+export { InitTables1673384735839 } from './init-bables-1673384735839';

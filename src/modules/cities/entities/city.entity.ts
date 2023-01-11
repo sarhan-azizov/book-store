@@ -7,9 +7,9 @@ import {
 } from 'typeorm';
 
 @Entity('data_sources')
-export class DataSourceEntity {
+export class CityEntity {
   @PrimaryGeneratedColumn('uuid', {
-    primaryKeyConstraintName: 'data_sources_pkey',
+    primaryKeyConstraintName: 'city_pkey',
   })
   id: string;
 

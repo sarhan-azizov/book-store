@@ -1,2 +1,2 @@
 export { HealthModule } from './health';
-export { CitiesModule, CityEntity } from './cities';
+export { CitiesModule, CityEntity, CitiesSeed } from './cities';

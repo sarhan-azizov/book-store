@@ -19,7 +19,7 @@ import { CitiesService } from './cities.service';
 
 @ApiBearerAuth()
 @ApiTags('City')
-@Controller('city')
+@Controller('cities')
 export class CitiesController {
   constructor(private readonly citiesService: CitiesService) {}
 

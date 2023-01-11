@@ -4,8 +4,9 @@ import { CityEntity } from './entities';
 
 export const CitiesSeed = async (queryRunner: QueryRunner): Promise<void> => {
   const cities = [
+    { name: 'Львов' },
     { name: 'Киев' },
-    { name: 'Днепропетровск' },
+    { name: 'Днепр' },
     { name: 'Харьков' },
     { name: 'Донецк' },
   ];

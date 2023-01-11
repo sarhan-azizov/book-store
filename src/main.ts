@@ -5,7 +5,7 @@ import { AppModule } from './app.module';
 import { DOTENV, middleware, swagger } from './configs';
 
 (async function () {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, { cors: true });
 
   middleware(app);
   swagger(app);

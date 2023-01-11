@@ -1,5 +1,5 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
-
+import { CityEntity } from '../modules';
 export class InitTables1673384735839 implements MigrationInterface {
   name = 'InitTables1673384735839';
 
@@ -30,6 +30,13 @@ export class InitTables1673384735839 implements MigrationInterface {
 
     await queryRunner.query(
       `ALTER TABLE "CLIENT" ADD CONSTRAINT "CLIENT_cityId_fkey" FOREIGN KEY ("cityId") REFERENCES "CITY"("id")`,
+    );
+
+    await queryRunner.manager.insert(
+      CityEntity,
+      Object.assign(new CityEntity(), {
+        name: 'sarhan',
+      }),
     );
   }
 

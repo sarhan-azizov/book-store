@@ -20,6 +20,7 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "typeorm:cli": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli",
     "migration:run": "npm run typeorm:cli -- migration:run -d ./src/migrations/migration",
+    "seed": "ts-node ./node_modules/typeorm-extension/dist/cli/index.js seed",
     "dcb": "docker-compose build",
     "ddd": "docker ps -a -q | xargs docker rm -f",
     "dcu": "docker-compose up"
@@ -44,7 +45,8 @@
     "pg": "^8.8.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.2.0",
-    "typeorm": "^0.3.11"
+    "typeorm": "^0.3.11",
+    "typeorm-extension": "^2.4.1"
   },
   "devDependencies": {
     "@nestjs/cli": "^9.0.0",

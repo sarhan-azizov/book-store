@@ -1,3 +1,4 @@
+import { AutoMap } from '@automapper/classes';
 import {
   Column,
   CreateDateColumn,
@@ -6,19 +7,23 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity('data_sources')
+@Entity('CITY')
 export class CityEntity {
+  @AutoMap()
   @PrimaryGeneratedColumn('uuid', {
     primaryKeyConstraintName: 'city_pkey',
   })
   id: string;
 
+  @AutoMap()
   @Column()
   name: string;
 
+  @AutoMap()
   @CreateDateColumn()
-  created_at: Date;
+  createdAt: Date;
 
+  @AutoMap()
   @UpdateDateColumn()
-  updated_at: Date;
+  updatedAt: Date;
 }

@@ -13,15 +13,7 @@ export class CitiesProfile extends AutomapperProfile {
 
   override get profile() {
     return (mapper: Mapper) => {
-      createMap(
-        mapper,
-        CityEntity,
-        CityResponseDTO,
-        forMember(
-          (dest) => dest.name,
-          mapFrom((src) => src.name),
-        ),
-      );
+      createMap(mapper, CityEntity, CityResponseDTO);
     };
   }
 }

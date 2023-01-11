@@ -16,12 +16,17 @@ export class CitiesService {
     private cityRepository: Repository<CityEntity>,
   ) {}
 
-  async getCity(id: string): Promise<CityResponseDTO | null> {
+  async getCities(): Promise<CityResponseDTO[]> {
     try {
-      const foundCity = await this.cityRepository.findOne({
-        where: { id },
+      const foundCities = await this.cityRepository.find();
+      return foundCities.map((cityEntity) => {
+        const result = this.mapper.map(cityEntity, CityEntity, CityResponseDTO);
+
+        // eslint-disable-next-line
+        console.log("====>", result);
+
+        return result;
       });
-      return this.mapper.map(foundCity, CityEntity, CityResponseDTO);
     } catch (err) {
       throw err;
     }

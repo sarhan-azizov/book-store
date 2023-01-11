@@ -23,26 +23,14 @@ import { CitiesService } from './cities.service';
 export class CitiesController {
   constructor(private readonly citiesService: CitiesService) {}
 
-  @Get('/:cityId')
-  @ApiOperation({ summary: 'get city' })
+  @Get('/')
+  @ApiOperation({ summary: 'get cities' })
   @ApiResponse({
     status: 200,
-    description: 'Return city',
+    description: 'Return cities',
     type: CityResponseDTO,
   })
-  @ApiNotFoundResponse({
-    description: 'City with provided id does not exist',
-    type: CommonErrorResponseDTO,
-  })
-  async getCities(
-    @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
-  ): Promise<CityResponseDTO> {
-    const foundCity = await this.citiesService.getCity(id);
-
-    if (!foundCity) {
-      throw new NotFoundException(`city not found with id: ${id}`);
-    }
-
-    return foundCity;
+  async getCities(): Promise<CityResponseDTO[]> {
+    return await this.citiesService.getCities();
   }
 }

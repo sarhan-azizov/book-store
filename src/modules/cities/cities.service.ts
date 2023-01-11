@@ -19,14 +19,9 @@ export class CitiesService {
   async getCities(): Promise<CityResponseDTO[]> {
     try {
       const foundCities = await this.cityRepository.find();
-      return foundCities.map((cityEntity) => {
-        const result = this.mapper.map(cityEntity, CityEntity, CityResponseDTO);
-
-        // eslint-disable-next-line
-        console.log("====>", result);
-
-        return result;
-      });
+      return foundCities.map((cityEntity) =>
+        this.mapper.map(cityEntity, CityEntity, CityResponseDTO),
+      );
     } catch (err) {
       throw err;
     }

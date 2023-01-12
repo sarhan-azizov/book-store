@@ -14,9 +14,9 @@ export class InitTables1673384735839 implements MigrationInterface {
     );
 
     await queryRunner.query(
-      `CREATE TABLE IF NOT EXISTS "CLIENT" (
+      `CREATE TABLE IF NOT EXISTS "USER" (
         "id" uuid DEFAULT uuid_generate_v4() PRIMARY KEY,
-        "admin" BOOLEAN DEFAULT FALSE,
+        "admin" BOOLEAN NOT NULL DEFAULT FALSE,
         "gender" decimal(1) NOT NULL,
         "phone" varchar(15) NOT NULL,
         "email" varchar(120) NOT NULL,
@@ -29,15 +29,15 @@ export class InitTables1673384735839 implements MigrationInterface {
     );
 
     await queryRunner.query(
-      `ALTER TABLE "CLIENT" ADD CONSTRAINT "CLIENT_cityId_fkey" FOREIGN KEY ("cityId") REFERENCES "CITY"("id")`,
+      `ALTER TABLE "USER" ADD CONSTRAINT "USER_cityId_fkey" FOREIGN KEY ("cityId") REFERENCES "CITY"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`,
     );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(
-      `ALTER TABLE "CLIENT" DROP CONSTRAINT "CLIENT_cityId_fkey"`,
+      `ALTER TABLE "USER" DROP CONSTRAINT "USER_cityId_fkey"`,
     );
     await queryRunner.query(`DROP TABLE "CITY"`);
-    await queryRunner.query(`DROP TABLE "CLIENT"`);
+    await queryRunner.query(`DROP TABLE "USER"`);
   }
 }

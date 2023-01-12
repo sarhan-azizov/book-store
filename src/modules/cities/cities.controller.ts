@@ -18,7 +18,7 @@ import { CityResponseDTO } from './dto';
 import { CitiesService } from './cities.service';
 
 @ApiBearerAuth()
-@ApiTags('City')
+@ApiTags('Cities')
 @Controller('cities')
 export class CitiesController {
   constructor(private readonly citiesService: CitiesService) {}

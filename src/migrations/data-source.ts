@@ -2,7 +2,7 @@ import { DataSource } from 'typeorm';
 
 import { DOTENV } from '../configs';
 import { InitTables1673384735839 } from './init-bables-1673384735839';
-import { CityEntity } from '../modules';
+import { CityEntity, UserEntity } from '../modules';
 
 export default new DataSource({
   type: 'postgres',
@@ -11,6 +11,6 @@ export default new DataSource({
   username: DOTENV.database.user,
   password: DOTENV.database.password,
   database: DOTENV.database.database,
-  entities: [CityEntity],
+  entities: [CityEntity, UserEntity],
   migrations: [InitTables1673384735839],
 });

@@ -5,7 +5,10 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
+  OneToMany,
 } from 'typeorm';
+
+import { UserEntity } from '../../users/entities/user.entity';
 
 @Entity('CITY')
 export class CityEntity {
@@ -18,6 +21,9 @@ export class CityEntity {
   @AutoMap()
   @Column()
   name: string;
+
+  @OneToMany(() => UserEntity, (user) => user.city)
+  user: UserEntity;
 
   @AutoMap()
   @CreateDateColumn()

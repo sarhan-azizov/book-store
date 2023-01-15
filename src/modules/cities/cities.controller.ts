@@ -10,7 +10,7 @@ export class CitiesController {
   constructor(private readonly citiesService: CitiesService) {}
 
   @Get('/')
-  @ApiOperation({ summary: 'get cities' })
+  @ApiOperation({ summary: 'return cities' })
   @ApiResponse({
     status: 200,
     description: 'Return cities',

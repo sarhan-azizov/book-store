@@ -30,6 +30,7 @@ export class UsersController {
   }
 
   @Get('/:email')
+  @ApiOperation({ summary: 'find user by email' })
   @ApiParam({
     name: 'email',
     required: true,
@@ -37,7 +38,7 @@ export class UsersController {
   })
   @ApiResponse({
     status: 200,
-    description: 'Return user',
+    description: 'Return a user',
     type: UserResponseDTO,
   })
   @ApiNotFoundResponse({

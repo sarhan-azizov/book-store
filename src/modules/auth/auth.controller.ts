@@ -15,10 +15,10 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('/auth')
-  @ApiOperation({ summary: 'create user' })
+  @ApiOperation({ summary: 'authorize a user' })
   @ApiResponse({
     status: 200,
-    description: 'Return token',
+    description: 'Return token for authorized user',
     type: AuthResponseDTO,
   })
   async authorization(

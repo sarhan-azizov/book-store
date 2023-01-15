@@ -29,7 +29,7 @@ export class UsersProfile extends AutomapperProfile {
         UserResponseDTO,
         forMember(
           (dest) => dest.cityId,
-          mapFrom((src) => src.city.id),
+          mapFrom((src) => src.city?.id || src.cityId),
         ),
       );
     };

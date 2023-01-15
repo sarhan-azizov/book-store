@@ -1,9 +1,11 @@
 import { Mapper } from '@automapper/core';
 import { InjectMapper } from '@automapper/nestjs';
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { hashSync } from 'bcryptjs';
 
+import { DOTENV } from '../../configs';
 import { CreateUserRequestDTO, UserResponseDTO } from './dto';
 import { UserEntity } from './entities';
 
@@ -16,12 +18,16 @@ export class UsersService {
     private userRepository: Repository<UserEntity>,
   ) {}
 
-  async createUser(
-    createUserRequestDTO: CreateUserRequestDTO,
-  ): Promise<CreateUserRequestDTO> {
+  async createUser({
+    password,
+    ...createUserRequestDTO
+  }: CreateUserRequestDTO): Promise<UserResponseDTO> {
     try {
       const userEntity = this.mapper.map(
-        createUserRequestDTO,
+        {
+          ...createUserRequestDTO,
+          password: hashSync(password, DOTENV.salt),
+        },
         CreateUserRequestDTO,
         UserEntity,
       );
@@ -29,6 +35,24 @@ export class UsersService {
       const savedUserEntity = await this.userRepository.save(userEntity);
 
       return this.mapper.map(savedUserEntity, UserEntity, UserResponseDTO);
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async getUser(email: string): Promise<UserResponseDTO> {
+    try {
+      const foundUser = await this.userRepository.findOne({
+        where: { email: String(email) },
+      });
+
+      if (!foundUser) {
+        new NotFoundException(
+          'user with provided original email does not exist',
+        );
+      }
+
+      return this.mapper.map(foundUser, UserEntity, UserResponseDTO);
     } catch (err) {
       throw err;
     }

@@ -10,6 +10,11 @@ export const DOTENV = {
     disableLogging: !isDevelopment,
     logLevel: process.env.LOG_LEVELS || 'debug',
   },
+  JWT: {
+    secret: process.env.SECRET,
+    expiresIn: process.env.EXPIRES_IN,
+  },
+  salt: process.env.SALT,
   database: {
     client: 'postgres',
     host: process.env.DB_HOST,

@@ -7,11 +7,13 @@ import {
   UpdateDateColumn,
   ManyToOne,
   JoinColumn,
+  Unique,
 } from 'typeorm';
 
 import { CityEntity } from '../../cities';
 
 @Entity('USER')
+@Unique('USER_email_key', ['email'])
 export class UserEntity {
   @AutoMap()
   @PrimaryGeneratedColumn('uuid', {
@@ -32,12 +34,16 @@ export class UserEntity {
   gender: number;
 
   @AutoMap()
+  @Column()
+  password: string;
+
+  @AutoMap()
+  @Column()
+  cityId: string;
+
+  @AutoMap()
   @ManyToOne(() => CityEntity, (city) => city.user, { nullable: false })
-  @JoinColumn({
-    name: 'cityId',
-    referencedColumnName: 'id',
-    foreignKeyConstraintName: 'USER_cityId_fkey',
-  })
+  @JoinColumn()
   city: CityEntity;
 
   @AutoMap()

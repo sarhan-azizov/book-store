@@ -1,10 +1,8 @@
 import { Controller, Post, Get, Param, Body } from '@nestjs/common';
 import {
-  ApiBearerAuth,
   ApiResponse,
   ApiTags,
   ApiOperation,
-  ApiProperty,
   ApiNotFoundResponse,
   ApiParam,
 } from '@nestjs/swagger';
@@ -13,7 +11,6 @@ import { CommonErrorResponseDTO } from '../../common';
 import { CreateUserRequestDTO, UserResponseDTO } from './dto';
 import { UsersService } from './users.service';
 
-@ApiBearerAuth()
 @ApiTags('Users')
 @Controller('/users')
 export class UsersController {

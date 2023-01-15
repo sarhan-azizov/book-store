@@ -1,23 +1,9 @@
-import {
-  Controller,
-  Get,
-  Param,
-  NotFoundException,
-  ParseUUIDPipe,
-} from '@nestjs/common';
-import {
-  ApiBearerAuth,
-  ApiNotFoundResponse,
-  ApiResponse,
-  ApiTags,
-  ApiOperation,
-} from '@nestjs/swagger';
+import { Controller, Get } from '@nestjs/common';
+import { ApiResponse, ApiTags, ApiOperation } from '@nestjs/swagger';
 
-import { CommonErrorResponseDTO } from '../../common';
 import { CityResponseDTO } from './dto';
 import { CitiesService } from './cities.service';
 
-@ApiBearerAuth()
 @ApiTags('Cities')
 @Controller('cities')
 export class CitiesController {

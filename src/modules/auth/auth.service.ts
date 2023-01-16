@@ -1,4 +1,3 @@
-import { InjectMapper } from '@automapper/nestjs';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { compareSync } from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt';
@@ -9,7 +8,6 @@ import { AuthRequestDTO, AuthResponseDTO } from './dto';
 @Injectable()
 export class AuthService {
   constructor(
-    @InjectMapper()
     private readonly usersService: UsersService,
     private readonly jwtService: JwtService,
   ) {}

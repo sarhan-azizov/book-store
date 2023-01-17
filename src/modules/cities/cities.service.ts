@@ -4,8 +4,12 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { CityResponseDTO } from './dto';
 import { CityEntity } from './entities';
+import {
+  CustomBusinessException,
+  CustomDatabaseException,
+  EnumModules,
+} from '../../common';
 
 @Injectable()
 export class CitiesService {
@@ -16,14 +20,19 @@ export class CitiesService {
     private cityRepository: Repository<CityEntity>,
   ) {}
 
-  async getCities(): Promise<CityResponseDTO[]> {
+  async getCities(): Promise<CityEntity[]> {
     try {
-      const foundCities = await this.cityRepository.find();
-      return foundCities.map((cityEntity) =>
-        this.mapper.map(cityEntity, CityEntity, CityResponseDTO),
+      return await this.cityRepository.find();
+    } catch (error) {
+      if (error instanceof CustomBusinessException) {
+        throw error;
+      }
+
+      throw new CustomDatabaseException(
+        'something went wrong',
+        EnumModules.USER,
+        error,
       );
-    } catch (err) {
-      throw err;
     }
   }
 }

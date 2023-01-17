@@ -1,9 +1,10 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { HttpStatus, Injectable } from '@nestjs/common';
 import { compareSync } from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt';
 
 import { UsersService } from '../users';
 import { AuthRequestDTO, AuthResponseDTO } from './dto';
+import { CustomBusinessException, EnumModules } from '../../common';
 
 @Injectable()
 export class AuthService {
@@ -17,7 +18,11 @@ export class AuthService {
     const isPasswordValid = compareSync(password, String(foundUser?.password));
 
     if (!isPasswordValid) {
-      new UnauthorizedException('the pair of login and password is not valid');
+      throw new CustomBusinessException(
+        'the pair of login and password is not valid',
+        EnumModules.AUTH,
+        HttpStatus.UNAUTHORIZED,
+      );
     }
   }
 

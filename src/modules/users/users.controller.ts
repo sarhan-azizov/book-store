@@ -1,4 +1,6 @@
-import { Controller, Post, Get, Param, Body } from '@nestjs/common';
+import { Controller, Post, Get, Param, Body, HttpStatus } from '@nestjs/common';
+import { InjectMapper } from '@automapper/nestjs';
+import { Mapper } from '@automapper/core';
 import {
   ApiResponse,
   ApiTags,
@@ -7,14 +9,23 @@ import {
   ApiParam,
 } from '@nestjs/swagger';
 
-import { CommonErrorResponseDTO } from '../../common';
+import {
+  CommonErrorResponseDTO,
+  CustomBusinessException,
+  EnumModules,
+} from '../../common';
 import { CreateUserRequestDTO, UserResponseDTO } from './dto';
 import { UsersService } from './users.service';
+import { UserEntity } from './entities';
 
 @ApiTags('Users')
 @Controller('/users')
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(
+    @InjectMapper()
+    private readonly mapper: Mapper,
+    private readonly usersService: UsersService,
+  ) {}
 
   @Post('/')
   @ApiOperation({ summary: 'create user' })
@@ -46,6 +57,16 @@ export class UsersController {
     type: CommonErrorResponseDTO,
   })
   async getUser(@Param('email') email: string): Promise<UserResponseDTO> {
-    return await this.usersService.getUser(email);
+    const foundUser = await this.usersService.getUser(email);
+
+    if (!foundUser) {
+      throw new CustomBusinessException(
+        'user with provided email does not exist',
+        EnumModules.USER,
+        HttpStatus.NOT_FOUND,
+      );
+    }
+
+    return this.mapper.map(foundUser, UserEntity, UserResponseDTO);
   }
 }

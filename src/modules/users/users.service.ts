@@ -2,7 +2,7 @@ import { Mapper } from '@automapper/core';
 import { InjectMapper } from '@automapper/nestjs';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, DeleteResult } from 'typeorm';
 import { hashSync } from 'bcryptjs';
 
 import { DOTENV } from '../../configs';
@@ -31,6 +31,7 @@ export class UsersService {
       const userEntity = this.mapper.map(
         {
           ...createUserRequestDTO,
+          email: createUserRequestDTO.email.toLowerCase(),
           password: hashSync(password, DOTENV.salt),
         },
         CreateUserRequestDTO,
@@ -57,6 +58,24 @@ export class UsersService {
     try {
       return await this.userRepository.findOne({
         where: { email: String(email) },
+      });
+    } catch (error) {
+      if (error instanceof CustomBusinessException) {
+        throw error;
+      }
+
+      throw new CustomDatabaseException(
+        'something went wrong',
+        EnumModules.USER,
+        error,
+      );
+    }
+  }
+
+  async deleteUser(email: string): Promise<DeleteResult> {
+    try {
+      return await this.userRepository.delete({
+        email: String(email).toLowerCase(),
       });
     } catch (error) {
       if (error instanceof CustomBusinessException) {

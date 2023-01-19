@@ -1,4 +1,13 @@
-import { Controller, Post, Get, Param, Body, HttpStatus } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Get,
+  Delete,
+  Param,
+  Body,
+  HttpStatus,
+} from '@nestjs/common';
+import { DeleteResult } from 'typeorm';
 import { InjectMapper } from '@automapper/nestjs';
 import { Mapper } from '@automapper/core';
 import {
@@ -12,6 +21,7 @@ import {
 import {
   CommonErrorResponseDTO,
   CustomBusinessException,
+  CommonDeleteResponseDTO,
   EnumModules,
 } from '../../common';
 import { CreateUserRequestDTO, UserResponseDTO } from './dto';
@@ -68,5 +78,21 @@ export class UsersController {
     }
 
     return this.mapper.map(foundUser, UserEntity, UserResponseDTO);
+  }
+
+  @Delete('/:email')
+  @ApiOperation({ summary: 'delete user by email' })
+  @ApiParam({
+    name: 'email',
+    required: true,
+    type: 'string',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Return deleted user result ',
+    type: CommonDeleteResponseDTO,
+  })
+  async deleteUser(@Param('email') email: string): Promise<DeleteResult> {
+    return this.usersService.deleteUser(email);
   }
 }

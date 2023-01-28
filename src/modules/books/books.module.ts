@@ -1,16 +1,16 @@
-import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
-
-import { CitiesProfile } from './cities.profile';
-import { CitiesService } from './cities.service';
-import { CitiesController } from './cities.controller';
-import { CityEntity } from './entities';
-import { UserEntity } from '../users';
-
-@Module({
-  imports: [TypeOrmModule.forFeature([CityEntity, UserEntity])],
-  controllers: [CitiesController],
-  providers: [CitiesService, CitiesProfile],
-  exports: [],
-})
-export class CitiesModule {}
+// import { Module } from '@nestjs/common';
+// import { TypeOrmModule } from '@nestjs/typeorm';
+//
+// import { BooksProfile } from './books.profile';
+// import { BooksService } from './books.service';
+// import { BooksController } from './books.controller';
+// import { LanuageEntity } from './entities';
+// import { UserEntity } from '../users';
+//
+// @Module({
+//   imports: [TypeOrmModule.forFeature([LanuageEntity, UserEntity])],
+//   controllers: [BooksController],
+//   providers: [BooksService, BooksProfile],
+//   exports: [],
+// })
+// export class BooksModule {}

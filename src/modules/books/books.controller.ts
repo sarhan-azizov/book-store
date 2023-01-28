@@ -1,19 +1,20 @@
+/*
 import { Controller, Get } from '@nestjs/common';
 import { ApiResponse, ApiTags, ApiOperation } from '@nestjs/swagger';
 import { InjectMapper } from '@automapper/nestjs';
 import { Mapper } from '@automapper/core';
 
-import { CityResponseDTO } from './dto';
-import { CitiesService } from './cities.service';
-import { CityEntity } from './entities';
+import { BookResponseDto } from './dto';
+import { BooksService } from './books.service';
+import { BookEntity } from './entities';
 
 @ApiTags('Cities')
 @Controller('cities')
-export class CitiesController {
+export class BooksController {
   constructor(
     @InjectMapper()
     private readonly mapper: Mapper,
-    private readonly citiesService: CitiesService,
+    private readonly citiesService: BooksService,
   ) {}
 
   @Get('/')
@@ -21,13 +22,14 @@ export class CitiesController {
   @ApiResponse({
     status: 200,
     description: 'Return cities',
-    type: CityResponseDTO,
+    type: BookResponseDto,
   })
-  async getCities(): Promise<CityResponseDTO[]> {
+  async getCities(): Promise<BookResponseDto[]> {
     const cities = await this.citiesService.getCities();
 
     return cities.map((cityEntity) =>
-      this.mapper.map(cityEntity, CityEntity, CityResponseDTO),
+      this.mapper.map(cityEntity, LanuageEntity, BookResponseDto),
     );
   }
 }
+*/

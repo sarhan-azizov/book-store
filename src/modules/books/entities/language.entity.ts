@@ -9,8 +9,8 @@ import {
 } from 'typeorm';
 import { BookEntity } from './book.entity';
 
-@Entity('BOOK_LANGUAGE')
-export class BookLanguageEntity {
+@Entity('LANGUAGE')
+export class LanguageEntity {
   @AutoMap()
   @PrimaryGeneratedColumn('uuid')
   id: string;

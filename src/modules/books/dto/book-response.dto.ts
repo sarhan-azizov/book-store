@@ -1,9 +1,9 @@
 import { AutoMap } from '@automapper/classes';
 import { ApiProperty } from '@nestjs/swagger';
 
-import { CreateCityRequestDTO } from './create-city-request.dto';
+import { CreateBookRequestDto } from './create-book-request.dto';
 
-export class CityResponseDTO extends CreateCityRequestDTO {
+export class BookResponseDto extends CreateBookRequestDto {
   @ApiProperty({
     required: true,
     type: 'string',

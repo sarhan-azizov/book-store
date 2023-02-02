@@ -7,20 +7,12 @@ import {
   UpdateDateColumn,
   ManyToMany,
 } from 'typeorm';
-import { BookEntity } from './book.entity';
 
 @Entity('AUTHOR')
 export class AuthorEntity {
   @AutoMap()
   @PrimaryGeneratedColumn('uuid')
   id: string;
-
-  @ManyToMany(() => BookEntity, (book) => book.authors, {
-    onDelete: 'NO ACTION',
-    onUpdate: 'NO ACTION',
-    nullable: false,
-  })
-  books: BookEntity[];
 
   @AutoMap()
   @Column()

@@ -8,6 +8,4 @@ export {
   BookEntity,
   CategoryEntity,
   LanguageEntity,
-  BookCategoryEntity,
-  BookAuthorEntity,
 } from './books';

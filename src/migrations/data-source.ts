@@ -4,8 +4,6 @@ import { DOTENV } from '../configs';
 import { InitTables1673384735839 } from './init-tables-1673384735839';
 import {
   AuthorEntity,
-  BookAuthorEntity,
-  BookCategoryEntity,
   BookEntity,
   CategoryEntity,
   CityEntity,
@@ -27,8 +25,6 @@ export default new DataSource({
     BookEntity,
     CategoryEntity,
     LanguageEntity,
-    BookCategoryEntity,
-    BookAuthorEntity,
   ],
   migrations: [InitTables1673384735839],
 });

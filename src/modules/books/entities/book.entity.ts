@@ -10,9 +10,9 @@ import {
   JoinTable,
 } from 'typeorm';
 
-import { AuthorEntity } from './author.entity';
-import { BookCategoryEntity } from './book-category.entity';
 import { LanguageEntity } from './language.entity';
+import { CategoryEntity } from './category.entity';
+import { AuthorEntity } from './author.entity';
 
 @Entity('BOOK')
 export class BookEntity {
@@ -20,47 +20,41 @@ export class BookEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @ManyToMany(() => AuthorEntity, (author) => author.books, {
-    onDelete: 'NO ACTION',
-    onUpdate: 'NO ACTION',
-  })
-  @JoinTable({
-    name: 'BOOK_AUTHOR',
-    joinColumn: {
-      name: 'bookId',
-      referencedColumnName: 'id',
-      foreignKeyConstraintName: 'BOOK_AUTHOR_bookId_fkey',
-    },
-    inverseJoinColumn: {
-      name: 'authorId',
-      referencedColumnName: 'id',
-      foreignKeyConstraintName: 'BOOK_AUTHOR_authorId_fkey',
-    },
-  })
-  authors: AuthorEntity[];
-
-  @ManyToOne(() => BookCategoryEntity, (bookCategory) => bookCategory.books, {
-    onDelete: 'NO ACTION',
-    onUpdate: 'NO ACTION',
+  @ManyToMany(() => CategoryEntity, {
+    cascade: true,
+    nullable: false,
   })
   @JoinTable({
     name: 'BOOK_CATEGORY',
     joinColumn: {
       name: 'bookId',
       referencedColumnName: 'id',
-      foreignKeyConstraintName: 'BOOK_CATEGORY_bookId_fkey',
     },
     inverseJoinColumn: {
       name: 'categoryId',
       referencedColumnName: 'id',
-      foreignKeyConstraintName: 'BOOK_CATEGORY_categoryId_fkey',
     },
   })
-  categories: BookCategoryEntity[];
+  categories: CategoryEntity[];
+
+  @ManyToMany(() => AuthorEntity, {
+    cascade: true,
+    nullable: false,
+  })
+  @JoinTable({
+    name: 'BOOK_AUTHOR',
+    joinColumn: {
+      name: 'bookId',
+      referencedColumnName: 'id',
+    },
+    inverseJoinColumn: {
+      name: 'authorId',
+      referencedColumnName: 'id',
+    },
+  })
+  authors: AuthorEntity[];
 
   @ManyToOne(() => LanguageEntity, (bookLanguage) => bookLanguage.books, {
-    onDelete: 'NO ACTION',
-    onUpdate: 'NO ACTION',
     nullable: false,
   })
   @JoinTable({

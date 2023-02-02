@@ -93,12 +93,7 @@ export const BooksSeed = async (queryRunner: QueryRunner): Promise<void> => {
     }),
   ];
 
-  // eslint-disable-next-line
-  console.log("====>", books[0]);
-
-
-
-  await queryRunner.manager.insert(
+  await queryRunner.manager.save(
     BookEntity,
     books.map((book) => book),
   );

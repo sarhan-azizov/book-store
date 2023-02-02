@@ -1,7 +1,6 @@
 import { DataSource } from 'typeorm';
 
 import { DOTENV } from '../configs';
-import { Seeds1673384735839 } from './seeds';
 import {
   CityEntity,
   UserEntity,
@@ -9,13 +8,12 @@ import {
   BookEntity,
   CategoryEntity,
   LanguageEntity,
-  BookCategoryEntity,
-  BookAuthorEntity,
 } from '../modules';
+import { Seeds1673384735839 } from './seeds';
 
 export default new DataSource({
   type: 'postgres',
-  host: DOTENV.database.host,
+  host: 'localhost',
   port: DOTENV.database.port,
   username: DOTENV.database.user,
   password: DOTENV.database.password,
@@ -27,8 +25,6 @@ export default new DataSource({
     BookEntity,
     CategoryEntity,
     LanguageEntity,
-    BookCategoryEntity,
-    BookAuthorEntity,
   ],
   migrations: [Seeds1673384735839],
 });

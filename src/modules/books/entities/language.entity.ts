@@ -9,14 +9,14 @@ import {
 } from 'typeorm';
 import { BookEntity } from './book.entity';
 
-@Entity('LANGUAGE')
+@Entity('LANGUAGES')
 export class LanguageEntity {
   @AutoMap()
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @AutoMap()
-  @Column()
+  @Column({ length: 20, type: 'varchar' })
   name: string;
 
   @OneToMany(() => BookEntity, (book) => book.language)

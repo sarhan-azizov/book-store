@@ -12,33 +12,34 @@ import {
 
 import { CityEntity } from '../../cities';
 
-@Entity('USER')
-@Unique('USER_email_key', ['email'])
+@Entity('USERS')
+@Unique('USERS_email_ukey', ['email'])
 export class UserEntity {
   @AutoMap()
-  @PrimaryGeneratedColumn('uuid', {
-    primaryKeyConstraintName: 'user_pkey',
-  })
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @AutoMap()
-  @Column()
+  @Column({ length: 120, type: 'varchar' })
   firstName: string;
 
+  @Column({ type: 'boolean', default: false })
+  admin: boolean;
+
   @AutoMap()
-  @Column()
+  @Column({ length: 120, type: 'varchar' })
   lastName: string;
 
   @AutoMap()
-  @Column()
+  @Column({ precision: 1, type: 'decimal' })
   gender: number;
 
   @AutoMap()
-  @Column()
+  @Column({ length: 60, type: 'varchar' })
   password: string;
 
   @AutoMap()
-  @Column()
+  @Column({ type: 'uuid' })
   cityId: string;
 
   @AutoMap()
@@ -47,11 +48,11 @@ export class UserEntity {
   city: CityEntity;
 
   @AutoMap()
-  @Column()
+  @Column({ length: 15, type: 'varchar' })
   phone: string;
 
   @AutoMap()
-  @Column()
+  @Column({ length: 120, type: 'varchar' })
   email: string;
 
   @AutoMap()

@@ -23,6 +23,6 @@ export const DOTENV = {
     password: process.env.DB_PASSWORD,
     database: process.env.DB_DATABASE,
     logging: isDevelopment,
-    synchronize: false,
+    synchronize: true,
   },
 };

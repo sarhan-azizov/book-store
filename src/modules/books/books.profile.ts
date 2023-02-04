@@ -1,10 +1,9 @@
-/*
 import { createMap, forMember, mapFrom, Mapper } from '@automapper/core';
 import { AutomapperProfile, InjectMapper } from '@automapper/nestjs';
 import { Injectable } from '@nestjs/common';
 
-import { BookResponseDto } from './dto';
-import { LanuageEntity } from './entities';
+import { BookResponseDTO } from './dto';
+import { BookEntity } from './entities';
 
 @Injectable()
 export class BooksProfile extends AutomapperProfile {
@@ -14,8 +13,23 @@ export class BooksProfile extends AutomapperProfile {
 
   override get profile() {
     return (mapper: Mapper) => {
-      createMap(mapper, LanuageEntity, BookResponseDto);
+      createMap(
+        mapper,
+        BookEntity,
+        BookResponseDTO,
+        forMember(
+          (dest) => dest.authors,
+          mapFrom((src) => src.authors),
+        ),
+        forMember(
+          (dest) => dest.categories,
+          mapFrom((src) => src.categories),
+        ),
+        forMember(
+          (dest) => dest.language,
+          mapFrom((src) => src.language),
+        ),
+      );
     };
   }
 }
-*/

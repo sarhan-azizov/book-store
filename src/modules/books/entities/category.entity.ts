@@ -7,14 +7,14 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity('CATEGORY')
+@Entity('CATEGORIES')
 export class CategoryEntity {
   @AutoMap()
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @AutoMap()
-  @Column()
+  @Column({ length: 120, type: 'varchar' })
   name: string;
 
   @AutoMap()

@@ -5,7 +5,13 @@ import { AutomapperModule } from '@automapper/nestjs';
 import { classes } from '@automapper/classes';
 
 import { DOTENV } from './configs';
-import { HealthModule, CitiesModule, UsersModule, AuthModule } from './modules';
+import {
+  HealthModule,
+  CitiesModule,
+  UsersModule,
+  AuthModule,
+  BooksModule,
+} from './modules';
 
 @Module({
   imports: [
@@ -13,6 +19,7 @@ import { HealthModule, CitiesModule, UsersModule, AuthModule } from './modules';
     CitiesModule,
     UsersModule,
     AuthModule,
+    BooksModule,
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: DOTENV.database.host,

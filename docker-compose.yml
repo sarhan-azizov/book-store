@@ -37,7 +37,7 @@ services:
     ports:
       - "${PORT}:${PORT}"
       - "9229:9229"
-    command: sh -c "npm run migration:run && npm run start"
+    command: sh -c "npm run start:dev"
 
 networks:
   local:

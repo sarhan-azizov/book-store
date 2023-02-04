@@ -13,6 +13,7 @@ import { Seeds1673384735839 } from './seeds';
 
 export default new DataSource({
   type: 'postgres',
+  //host: DOTENV.database.host,
   host: 'localhost',
   port: DOTENV.database.port,
   username: DOTENV.database.user,

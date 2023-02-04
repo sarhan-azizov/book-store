@@ -5,25 +5,24 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
-  ManyToMany,
 } from 'typeorm';
 
-@Entity('AUTHOR')
+@Entity('AUTHORS')
 export class AuthorEntity {
   @AutoMap()
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @AutoMap()
-  @Column()
+  @Column({ length: 120, type: 'varchar' })
   firstName: string;
 
   @AutoMap()
-  @Column()
+  @Column({ length: 120, type: 'varchar' })
   lastName: string;
 
   @AutoMap()
-  @Column()
+  @Column({ length: 1000, type: 'varchar' })
   description: string;
 
   @AutoMap()

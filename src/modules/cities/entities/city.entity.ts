@@ -10,16 +10,14 @@ import {
 
 import { UserEntity } from '../../users/entities/user.entity';
 
-@Entity('CITY')
+@Entity('CITIES')
 export class CityEntity {
   @AutoMap()
-  @PrimaryGeneratedColumn('uuid', {
-    primaryKeyConstraintName: 'city_pkey',
-  })
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @AutoMap()
-  @Column()
+  @Column({ length: 120, type: 'varchar' })
   name: string;
 
   @OneToMany(() => UserEntity, (user) => user.city)

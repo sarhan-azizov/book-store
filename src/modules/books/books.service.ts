@@ -1,11 +1,10 @@
-/*
 import { Mapper } from '@automapper/core';
 import { InjectMapper } from '@automapper/nestjs';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { LanuageEntity } from './entities';
+import { BookEntity } from './entities';
 import {
   CustomBusinessException,
   CustomDatabaseException,
@@ -17,13 +16,19 @@ export class BooksService {
   constructor(
     @InjectMapper()
     private readonly mapper: Mapper,
-    @InjectRepository(LanuageEntity)
-    private cityRepository: Repository<LanuageEntity>,
+    @InjectRepository(BookEntity)
+    private bookRepository: Repository<BookEntity>,
   ) {}
 
-  async getCities(): Promise<LanuageEntity[]> {
+  async getBooks(): Promise<BookEntity[]> {
     try {
-      return await this.cityRepository.find();
+      return await this.bookRepository.find({
+        relations: {
+          language: true,
+          categories: true,
+          authors: true,
+        },
+      });
     } catch (error) {
       if (error instanceof CustomBusinessException) {
         throw error;
@@ -37,4 +42,3 @@ export class BooksService {
     }
   }
 }
-*/

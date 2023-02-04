@@ -14,18 +14,19 @@ import { LanguageEntity } from './language.entity';
 import { CategoryEntity } from './category.entity';
 import { AuthorEntity } from './author.entity';
 
-@Entity('BOOK')
+@Entity('BOOKS')
 export class BookEntity {
   @AutoMap()
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
+  @AutoMap(() => [CategoryEntity])
   @ManyToMany(() => CategoryEntity, {
     cascade: true,
     nullable: false,
   })
   @JoinTable({
-    name: 'BOOK_CATEGORY',
+    name: 'BOOKS_CATEGORIES',
     joinColumn: {
       name: 'bookId',
       referencedColumnName: 'id',
@@ -37,12 +38,13 @@ export class BookEntity {
   })
   categories: CategoryEntity[];
 
+  @AutoMap(() => [AuthorEntity])
   @ManyToMany(() => AuthorEntity, {
     cascade: true,
     nullable: false,
   })
   @JoinTable({
-    name: 'BOOK_AUTHOR',
+    name: 'BOOKS_AUTHORS',
     joinColumn: {
       name: 'bookId',
       referencedColumnName: 'id',
@@ -54,11 +56,12 @@ export class BookEntity {
   })
   authors: AuthorEntity[];
 
+  @AutoMap()
   @ManyToOne(() => LanguageEntity, (bookLanguage) => bookLanguage.books, {
     nullable: false,
   })
   @JoinTable({
-    name: 'BOOK_LANGUAGE',
+    name: 'LANGUAGES',
     joinColumn: {
       name: 'languageId',
       referencedColumnName: 'id',
@@ -67,19 +70,19 @@ export class BookEntity {
   language: LanguageEntity;
 
   @AutoMap()
-  @Column()
+  @Column({ length: 120, type: 'varchar' })
   title: string;
 
   @AutoMap()
-  @Column()
+  @Column({ length: 2500, type: 'varchar' })
   description: string;
 
   @AutoMap()
-  @Column()
+  @Column({ type: 'money' })
   cost: number;
 
   @AutoMap()
-  @Column()
+  @Column({ type: 'smallint' })
   pages: number;
 
   @AutoMap()

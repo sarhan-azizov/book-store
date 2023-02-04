@@ -3,7 +3,7 @@ import { ApiProperty } from '@nestjs/swagger';
 
 import { CreateBookRequestDto } from './create-book-request.dto';
 
-export class BookResponseDto extends CreateBookRequestDto {
+export class BookResponseDTO extends CreateBookRequestDto {
   @ApiProperty({
     required: true,
     type: 'string',
@@ -12,6 +12,61 @@ export class BookResponseDto extends CreateBookRequestDto {
   })
   @AutoMap()
   id: string;
+
+  @ApiProperty({
+    required: true,
+  })
+  @AutoMap()
+  language: any;
+
+  @ApiProperty({
+    required: true,
+  })
+  @AutoMap()
+  authors: any[];
+
+  @ApiProperty({
+    required: true,
+  })
+  @AutoMap()
+  categories: any[];
+
+  @ApiProperty({
+    required: true,
+    type: 'string',
+    example: 'Фантастические твари и где они обитают.',
+  })
+  @AutoMap()
+  title: string;
+
+  @ApiProperty({
+    required: true,
+    type: 'string',
+  })
+  @AutoMap()
+  description: string;
+
+  @ApiProperty({
+    required: true,
+    type: 'number',
+  })
+  @AutoMap()
+  cost: number;
+
+  @ApiProperty({
+    required: true,
+    type: 'number',
+  })
+  @AutoMap()
+  pages: number;
+
+  @ApiProperty({
+    required: true,
+    type: 'string',
+    example: '2022-11-28T16:57:34.356Z',
+  })
+  @AutoMap()
+  publicationDate: Date;
 
   @ApiProperty({
     required: true,

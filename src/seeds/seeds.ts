@@ -2,7 +2,7 @@ import { MigrationInterface, QueryRunner } from 'typeorm';
 import { CitiesSeed, BooksSeed } from '../modules';
 
 export class Seeds1673384735839 implements MigrationInterface {
-  name = 'Seeds1673384735831';
+  name = 'Seeds16733847358313';
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await CitiesSeed(queryRunner);

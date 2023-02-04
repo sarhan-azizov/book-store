@@ -8,4 +8,5 @@ export {
   BookEntity,
   CategoryEntity,
   LanguageEntity,
+  BooksModule,
 } from './books';

@@ -1,2 +1,2 @@
 export { CreateBookRequestDto } from './create-book-request.dto';
-export { BookResponseDto } from './book-response.dto';
+export { BookResponseDTO } from './book-response.dto';

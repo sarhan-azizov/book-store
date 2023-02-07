@@ -8,7 +8,7 @@ import {
   BookEntity,
 } from './entities';
 
-export const BooksSeed = async (queryRunner: QueryRunner): Promise<void> => {
+export const booksSeed = async (queryRunner: QueryRunner): Promise<void> => {
   const languages = [
     { id: faker.datatype.uuid(), name: 'Русский' },
     { id: faker.datatype.uuid(), name: 'Английский' },
@@ -76,7 +76,7 @@ export const BooksSeed = async (queryRunner: QueryRunner): Promise<void> => {
       language: Object.assign(new LanguageEntity(), { id: languages[0].id }),
       categories: [
         Object.assign(new CategoryEntity(), {
-          id: categories[0].id,
+          id: categories[2].id,
         }),
       ],
       authors: [

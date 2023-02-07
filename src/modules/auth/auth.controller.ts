@@ -1,10 +1,7 @@
 import { Controller, Post, Body } from '@nestjs/common';
-import {
-  ApiBearerAuth,
-  ApiResponse,
-  ApiTags,
-  ApiOperation,
-} from '@nestjs/swagger';
+import { ApiResponse, ApiTags, ApiOperation } from '@nestjs/swagger';
+
+import { Roles, EnumRoles } from '@/common';
 
 import { AuthRequestDTO, AuthResponseDTO } from './dto';
 import { AuthService } from './auth.service';
@@ -15,6 +12,7 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('/auth')
+  @Roles([EnumRoles.PUBLIC])
   @ApiOperation({ summary: 'authorize a user' })
   @ApiResponse({
     status: 200,

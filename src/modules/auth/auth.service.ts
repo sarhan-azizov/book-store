@@ -13,26 +13,27 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async validateUser({ email, password }: AuthRequestDTO) {
-    const foundUser = await this.usersService.getUser(email);
-    const isPasswordValid = compareSync(password, String(foundUser?.password));
-
-    if (!isPasswordValid) {
-      throw new CustomBusinessException(
-        'the pair of login and password is not valid',
-        EnumModules.AUTH,
-        HttpStatus.UNAUTHORIZED,
-      );
-    }
-  }
-
   async auth(authRequestDTO: AuthRequestDTO): Promise<AuthResponseDTO> {
     try {
-      await this.validateUser(authRequestDTO);
+      const foundUser = await this.usersService.getUser(authRequestDTO.email);
+
+      const isPasswordValid = compareSync(
+        authRequestDTO.password,
+        String(foundUser?.password),
+      );
+
+      if (!isPasswordValid) {
+        throw new CustomBusinessException(
+          'the pair of login and password is not valid',
+          EnumModules.AUTH,
+          HttpStatus.UNAUTHORIZED,
+        );
+      }
 
       const token = this.jwtService.sign({
         email: authRequestDTO.email,
         password: authRequestDTO.password,
+        isAdmin: foundUser?.admin,
       });
 
       return {

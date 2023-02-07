@@ -6,4 +6,4 @@ export {
   LanguageEntity,
 } from './entities';
 export { BooksModule } from './books.module';
-export { BooksSeed } from './books.seed';
+export { booksSeed } from './books.seed';

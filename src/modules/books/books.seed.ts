@@ -1,12 +1,11 @@
 import { QueryRunner } from 'typeorm';
 import { faker } from '@faker-js/faker';
 
-import {
-  LanguageEntity,
-  CategoryEntity,
-  AuthorEntity,
-  BookEntity,
-} from './entities';
+import { LanguageEntity } from '@/modules/languages';
+import { CategoryEntity } from '@/modules/categories';
+import { AuthorEntity } from '@/modules/authors';
+
+import { BookEntity } from './entities';
 
 export const booksSeed = async (queryRunner: QueryRunner): Promise<void> => {
   const languages = [

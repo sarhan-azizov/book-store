@@ -10,9 +10,9 @@ import {
   JoinTable,
 } from 'typeorm';
 
-import { LanguageEntity } from './language.entity';
-import { CategoryEntity } from './category.entity';
-import { AuthorEntity } from './author.entity';
+import { LanguageEntity } from '@/modules/languages';
+import { CategoryEntity } from '@/modules/categories';
+import { AuthorEntity } from '@/modules/authors';
 
 @Entity('BOOKS')
 export class BookEntity {

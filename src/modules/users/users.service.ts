@@ -76,6 +76,26 @@ export class UsersService {
     }
   }
 
+  async getUsers(): Promise<UserEntity[]> {
+    try {
+      return await this.userRepository.find({
+        relations: {
+          city: true,
+        },
+      });
+    } catch (error) {
+      if (error instanceof CustomBusinessException) {
+        throw error;
+      }
+
+      throw new CustomDatabaseException(
+        'something went wrong',
+        EnumModules.USER,
+        error,
+      );
+    }
+  }
+
   async deleteUser(email: string): Promise<DeleteResult> {
     try {
       return await this.userRepository.delete({

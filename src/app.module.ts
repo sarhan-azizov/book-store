@@ -11,6 +11,9 @@ import {
   UsersModule,
   AuthModule,
   BooksModule,
+  LanguagesModule,
+  AuthorsModule,
+  CategoriesModule,
 } from './modules';
 
 @Module({
@@ -20,6 +23,9 @@ import {
     UsersModule,
     AuthModule,
     BooksModule,
+    LanguagesModule,
+    AuthorsModule,
+    CategoriesModule,
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: DOTENV.database.host,

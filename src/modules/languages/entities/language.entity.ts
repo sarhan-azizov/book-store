@@ -7,7 +7,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { BookEntity } from './book.entity';
+import { BookEntity } from '@/modules/books';
 
 @Entity('LANGUAGES')
 export class LanguageEntity {

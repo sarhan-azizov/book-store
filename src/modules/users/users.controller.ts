@@ -91,6 +91,25 @@ export class UsersController {
     }
   }
 
+  @Get('/')
+  @ApiBearerAuth()
+  @Roles([EnumRoles.ADMIN])
+  @ApiOperation({ summary: 'get users' })
+  @ApiResponse({
+    status: 200,
+    description: 'Return users',
+    type: UserResponseDTO,
+  })
+  async getUsers(): Promise<UserResponseDTO[]> {
+    try {
+      const foundUsers = await this.usersService.getUsers();
+
+      return this.mapper.mapArray(foundUsers, UserEntity, UserResponseDTO);
+    } catch (e) {
+      throw e;
+    }
+  }
+
   @Delete('/:email')
   @ApiBearerAuth()
   @Roles([EnumRoles.ADMIN])

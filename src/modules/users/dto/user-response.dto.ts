@@ -1,7 +1,9 @@
 import { AutoMap } from '@automapper/classes';
 import { ApiProperty } from '@nestjs/swagger';
+import { Exclude } from 'class-transformer';
 
 import { CreateUserRequestDTO } from './create-user-request.dto';
+import { CityResponseDTO } from '@/modules/cities';
 
 export class UserResponseDTO extends CreateUserRequestDTO {
   @ApiProperty({
@@ -20,6 +22,16 @@ export class UserResponseDTO extends CreateUserRequestDTO {
   })
   @AutoMap()
   createdAt: Date;
+
+  @Exclude()
+  cityId: string;
+
+  @ApiProperty({
+    required: true,
+    type: [CityResponseDTO],
+  })
+  @AutoMap()
+  city: CityResponseDTO;
 
   @ApiProperty({
     required: true,

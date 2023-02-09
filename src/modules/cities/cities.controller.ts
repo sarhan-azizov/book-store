@@ -3,6 +3,8 @@ import { ApiResponse, ApiTags, ApiOperation } from '@nestjs/swagger';
 import { InjectMapper } from '@automapper/nestjs';
 import { Mapper } from '@automapper/core';
 
+import { Roles, EnumRoles } from '@/common';
+
 import { CityResponseDTO } from './dto';
 import { CitiesService } from './cities.service';
 import { CityEntity } from './entities';
@@ -17,6 +19,7 @@ export class CitiesController {
   ) {}
 
   @Get('/')
+  @Roles([EnumRoles.PUBLIC])
   @ApiOperation({ summary: 'return cities' })
   @ApiResponse({
     status: 200,
@@ -24,10 +27,12 @@ export class CitiesController {
     type: CityResponseDTO,
   })
   async getCities(): Promise<CityResponseDTO[]> {
-    const cities = await this.citiesService.getCities();
+    try {
+      const cities = await this.citiesService.getCities();
 
-    return cities.map((cityEntity) =>
-      this.mapper.map(cityEntity, CityEntity, CityResponseDTO),
-    );
+      return this.mapper.mapArray(cities, CityEntity, CityResponseDTO);
+    } catch (e) {
+      throw e;
+    }
   }
 }

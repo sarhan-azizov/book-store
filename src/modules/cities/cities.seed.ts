@@ -2,7 +2,7 @@ import { QueryRunner } from 'typeorm';
 
 import { CityEntity } from './entities';
 
-export const CitiesSeed = async (queryRunner: QueryRunner): Promise<void> => {
+export const citiesSeed = async (queryRunner: QueryRunner): Promise<void> => {
   const cities = [
     { name: 'Львов' },
     { name: 'Киев' },

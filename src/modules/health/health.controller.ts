@@ -7,6 +7,8 @@ import {
   HealthCheckResult,
 } from '@nestjs/terminus';
 
+import { Roles, EnumRoles } from '@/common';
+
 @ApiTags('Health Probes')
 @Controller('/')
 export class HealthController {
@@ -16,6 +18,7 @@ export class HealthController {
   ) {}
 
   @Get('healthcheck')
+  @Roles([EnumRoles.PUBLIC])
   @HealthCheck()
   readiness(): Promise<HealthCheckResult> {
     return this.health.check([() => this.db.pingCheck('typeorm')]);

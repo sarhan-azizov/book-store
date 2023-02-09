@@ -10,10 +10,12 @@ import {
   Unique,
 } from 'typeorm';
 
+import { DBConstraintsKeys } from '@/common';
+
 import { CityEntity } from '../../cities';
 
 @Entity('USERS')
-@Unique('USERS_email_ukey', ['email'])
+@Unique(DBConstraintsKeys.U__USER__email, ['email'])
 export class UserEntity {
   @AutoMap()
   @PrimaryGeneratedColumn('uuid')
@@ -39,12 +41,13 @@ export class UserEntity {
   password: string;
 
   @AutoMap()
-  @Column({ type: 'uuid' })
-  cityId: string;
-
-  @AutoMap()
-  @ManyToOne(() => CityEntity, (city) => city.user, { nullable: false })
-  @JoinColumn()
+  @ManyToOne(() => CityEntity, (city) => city.user, {
+    nullable: false,
+  })
+  @JoinColumn({
+    name: 'cityId',
+    foreignKeyConstraintName: DBConstraintsKeys.FK__USER__cityId,
+  })
   city: CityEntity;
 
   @AutoMap()

@@ -10,7 +10,8 @@ import {
   EnumModules,
   CustomDatabaseException,
   CustomBusinessException,
-} from '../../common';
+} from '@/common';
+
 import { CreateUserRequestDTO, UserResponseDTO } from './dto';
 import { UserEntity } from './entities';
 
@@ -58,6 +59,9 @@ export class UsersService {
     try {
       return await this.userRepository.findOne({
         where: { email: String(email) },
+        relations: {
+          city: true,
+        },
       });
     } catch (error) {
       if (error instanceof CustomBusinessException) {

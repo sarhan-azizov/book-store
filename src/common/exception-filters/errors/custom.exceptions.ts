@@ -39,6 +39,8 @@ export class ManageGlobalExceptions {
   }
 
   public getErrorDetails<T>(exception: T): string {
+    console.error('====>', exception);
+
     if (exception instanceof HttpException) {
       const exceptionResponse = exception.getResponse() as THttpExceptionBody;
       return Array.isArray(exceptionResponse.message)
@@ -105,11 +107,11 @@ export class CustomBusinessException extends CustomException {
 }
 
 export const DBConstraintsKeys = {
-  UC__USER__email: 'USER_email_key',
-  FKC__USER__cityId: 'USER_cityId_fkey',
+  U__USER__email: 'USERS_email_u',
+  FK__USER__cityId: 'USERS_cityId_fkey',
 };
 
 const DBConstraints: { [key: string]: string } = {
-  [DBConstraintsKeys.UC__USER__email]: 'provided email already exist',
-  [DBConstraintsKeys.FKC__USER__cityId]: 'provided cityId does not exist',
+  [DBConstraintsKeys.U__USER__email]: 'provided email already exist',
+  [DBConstraintsKeys.FK__USER__cityId]: 'provided cityId does not exist',
 };

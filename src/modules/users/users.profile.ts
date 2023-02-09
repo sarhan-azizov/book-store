@@ -28,8 +28,8 @@ export class UsersProfile extends AutomapperProfile {
         UserEntity,
         UserResponseDTO,
         forMember(
-          (dest) => dest.cityId,
-          mapFrom((src) => src.city?.id || src.cityId),
+          (dest) => dest.city,
+          mapFrom((src) => src.city),
         ),
       );
     };

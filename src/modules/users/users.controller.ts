@@ -1,29 +1,33 @@
 import {
-  Controller,
-  Post,
-  Get,
-  Delete,
-  Param,
   Body,
+  Controller,
+  Delete,
+  Get,
   HttpStatus,
+  Param,
+  Post,
 } from '@nestjs/common';
 import { DeleteResult } from 'typeorm';
 import { InjectMapper } from '@automapper/nestjs';
 import { Mapper } from '@automapper/core';
 import {
+  ApiBearerAuth,
+  ApiNotFoundResponse,
+  ApiOperation,
+  ApiParam,
   ApiResponse,
   ApiTags,
-  ApiOperation,
-  ApiNotFoundResponse,
-  ApiParam,
 } from '@nestjs/swagger';
 
 import {
+  CommonDeleteResponseDTO,
   CommonErrorResponseDTO,
   CustomBusinessException,
-  CommonDeleteResponseDTO,
   EnumModules,
-} from '../../common';
+  EnumRoles,
+  Roles,
+} from '@/common';
+
 import { CreateUserRequestDTO, UserResponseDTO } from './dto';
 import { UsersService } from './users.service';
 import { UserEntity } from './entities';
@@ -38,6 +42,7 @@ export class UsersController {
   ) {}
 
   @Post('/')
+  @Roles([EnumRoles.PUBLIC])
   @ApiOperation({ summary: 'create user' })
   @ApiResponse({
     status: 201,
@@ -51,6 +56,8 @@ export class UsersController {
   }
 
   @Get('/:email')
+  @ApiBearerAuth()
+  @Roles([EnumRoles.ADMIN])
   @ApiOperation({ summary: 'find user by email' })
   @ApiParam({
     name: 'email',
@@ -67,20 +74,26 @@ export class UsersController {
     type: CommonErrorResponseDTO,
   })
   async getUser(@Param('email') email: string): Promise<UserResponseDTO> {
-    const foundUser = await this.usersService.getUser(email);
+    try {
+      const foundUser = await this.usersService.getUser(email);
 
-    if (!foundUser) {
-      throw new CustomBusinessException(
-        'user with provided email does not exist',
-        EnumModules.USER,
-        HttpStatus.NOT_FOUND,
-      );
+      if (!foundUser) {
+        throw new CustomBusinessException(
+          'user with provided email does not exist',
+          EnumModules.USER,
+          HttpStatus.NOT_FOUND,
+        );
+      }
+
+      return this.mapper.map(foundUser, UserEntity, UserResponseDTO);
+    } catch (e) {
+      throw e;
     }
-
-    return this.mapper.map(foundUser, UserEntity, UserResponseDTO);
   }
 
   @Delete('/:email')
+  @ApiBearerAuth()
+  @Roles([EnumRoles.ADMIN])
   @ApiOperation({ summary: 'delete user by email' })
   @ApiParam({
     name: 'email',

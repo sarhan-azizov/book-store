@@ -1,7 +1,7 @@
 export { HealthModule } from './health';
-export { LanguagesModule, LanguageEntity } from './languages';
-export { AuthorsModule, AuthorEntity } from './authors';
-export { CategoriesModule, CategoryEntity } from './categories';
+export { LanguagesModule, LanguageEntity, languagesSeed } from './languages';
+export { AuthorsModule, AuthorEntity, authorsSeed } from './authors';
+export { CategoriesModule, CategoryEntity, categoriesSeed } from './categories';
 export { CitiesModule, CityEntity, citiesSeed } from './cities';
 export { UsersModule, UserEntity, usersSeed } from './users';
 export { AuthModule } from './auth';

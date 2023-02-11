@@ -7,27 +7,33 @@ import { DOTENV } from '@/configs';
 import { UserEntity } from './entities';
 
 export const usersSeed = async (queryRunner: QueryRunner): Promise<void> => {
-  const foundCity = await queryRunner.manager.findOne(CityEntity, {
-    where: {
-      name: 'Днепр',
-    },
-  });
+  const foundCities = await queryRunner.manager.find(CityEntity);
 
-  const users: Omit<UserEntity, 'id' | 'createdAt' | 'updatedAt'>[] = [
-    {
+  const users: UserEntity[] = [
+    Object.assign(new UserEntity(), {
       email: 'admin@admin.com',
       firstName: 'admin',
       lastName: 'admin',
       gender: 0,
       phone: '',
       admin: true,
-      city: Object.assign(new CityEntity(), { id: foundCity?.id }),
+      city: Object.assign(new CityEntity(), { id: foundCities[0]?.id }),
       password: hashSync('admin', DOTENV.salt),
-    },
+    }),
+    Object.assign(new UserEntity(), {
+      email: 'sarhan.azizov@gmail.com',
+      firstName: 'sarhan',
+      lastName: 'sarhan',
+      gender: 0,
+      phone: '',
+      admin: false,
+      city: Object.assign(new CityEntity(), { id: foundCities[1]?.id }),
+      password: hashSync('sarhan', DOTENV.salt),
+    }),
   ];
 
   await queryRunner.manager.insert(
     UserEntity,
-    users.map((user) => Object.assign(new UserEntity(), user)),
+    users.map((user) => user),
   );
 };

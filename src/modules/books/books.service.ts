@@ -2,12 +2,13 @@ import { Mapper } from '@automapper/core';
 import { InjectMapper } from '@automapper/nestjs';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, In } from 'typeorm';
 
 import {
   CustomBusinessException,
   CustomDatabaseException,
   EnumModules,
+  CommonPaginationResponseDTO,
 } from '@/common';
 
 import { BookEntity } from './entities';
@@ -22,33 +23,54 @@ export class BooksService {
     private bookRepository: Repository<BookEntity>,
   ) {}
 
-  async getBooks(query: BookQueryDTO): Promise<BookEntity[]> {
+  async getBooks(
+    query: BookQueryDTO,
+  ): Promise<CommonPaginationResponseDTO<BookEntity>> {
     try {
-      const querySQL = this.bookRepository
-        .createQueryBuilder('books')
-        .leftJoinAndSelect('books.language', 'language')
-        .leftJoinAndSelect('books.categories', 'category')
-        .leftJoinAndSelect('books.authors', 'author');
-
-      if (query.categories) {
-        querySQL.andWhere('category.id IN (:...categories)', {
-          categories: query.categories.split(','),
-        });
-      }
+      const page = query.page ? query.page - 1 : 0;
+      const perPage = query.perPage || 10;
+      const where: any = {};
 
       if (query.languages) {
-        querySQL.andWhere('language.id IN (:...languages)', {
-          languages: query.languages.split(','),
-        });
+        where.language = {
+          id: In(query.languages.split(',')),
+        };
+      }
+
+      if (query.categories) {
+        where.categories = {
+          id: In(query.categories.split(',')),
+        };
       }
 
       if (query.authors) {
-        querySQL.andWhere('author.id IN (:...authors)', {
-          authors: query.authors.split(','),
-        });
+        where.authors = {
+          id: In(query.authors.split(',')),
+        };
       }
 
-      return querySQL.getMany();
+      const [data, itemsCount] = await this.bookRepository.findAndCount({
+        where,
+        relations: {
+          language: true,
+          categories: true,
+          authors: true,
+        },
+        skip: page * perPage,
+        take: perPage,
+        order: {
+          title: 'ASC',
+        },
+      });
+
+      return {
+        data,
+        metaData: {
+          pages: Math.ceil(itemsCount / perPage),
+          perPage,
+          itemsCount,
+        },
+      };
     } catch (error) {
       if (error instanceof CustomBusinessException) {
         throw error;

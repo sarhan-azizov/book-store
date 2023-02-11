@@ -1,4 +1,8 @@
-export { CommonErrorResponseDTO, CommonDeleteResponseDTO } from './dto';
+export {
+  CommonErrorResponseDTO,
+  CommonDeleteResponseDTO,
+  CommonPaginationResponseDTO,
+} from './dto';
 export {
   GlobalExceptionFilter,
   CustomBusinessException,

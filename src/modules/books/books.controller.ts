@@ -8,7 +8,7 @@ import {
 import { InjectMapper } from '@automapper/nestjs';
 import { Mapper } from '@automapper/core';
 
-import { Roles, EnumRoles } from '@/common';
+import { Roles, EnumRoles, CommonPaginationResponseDTO } from '@/common';
 
 import { BookResponseDTO, BookQueryDTO } from './dto';
 import { BooksService } from './books.service';
@@ -30,13 +30,22 @@ export class BooksController {
   @ApiResponse({
     status: 200,
     description: 'Return books',
-    type: BookResponseDTO,
+    type: CommonPaginationResponseDTO,
   })
-  async getBooks(@Query() query: BookQueryDTO): Promise<BookResponseDTO[]> {
+  async getBooks(
+    @Query() query: BookQueryDTO,
+  ): Promise<CommonPaginationResponseDTO<BookResponseDTO>> {
     try {
       const foundBooks = await this.booksService.getBooks(query);
 
-      return this.mapper.mapArray(foundBooks, BookEntity, BookResponseDTO);
+      return {
+        data: this.mapper.mapArray(
+          foundBooks.data,
+          BookEntity,
+          BookResponseDTO,
+        ),
+        metaData: foundBooks.metaData,
+      };
     } catch (e) {
       throw e;
     }

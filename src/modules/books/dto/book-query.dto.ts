@@ -1,7 +1,9 @@
 import { IsOptional, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
-export class BookQueryDTO {
+import { CommonPaginationRequestDTO } from '@/common/dto';
+
+export class BookQueryDTO extends CommonPaginationRequestDTO {
   @ApiProperty({
     type: 'string',
     required: false,

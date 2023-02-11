@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Query } from '@nestjs/common';
 import {
   ApiResponse,
   ApiTags,
@@ -10,7 +10,7 @@ import { Mapper } from '@automapper/core';
 
 import { Roles, EnumRoles } from '@/common';
 
-import { BookResponseDTO } from './dto';
+import { BookResponseDTO, BookQueryDTO } from './dto';
 import { BooksService } from './books.service';
 import { BookEntity } from './entities';
 
@@ -32,9 +32,9 @@ export class BooksController {
     description: 'Return books',
     type: BookResponseDTO,
   })
-  async getBooks(): Promise<BookResponseDTO[]> {
+  async getBooks(@Query() query: BookQueryDTO): Promise<BookResponseDTO[]> {
     try {
-      const foundBooks = await this.booksService.getBooks();
+      const foundBooks = await this.booksService.getBooks(query);
 
       return this.mapper.mapArray(foundBooks, BookEntity, BookResponseDTO);
     } catch (e) {

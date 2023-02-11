@@ -1,6 +1,10 @@
 import { AutoMap } from '@automapper/classes';
 import { ApiProperty } from '@nestjs/swagger';
 
+import { AuthorsResponseDTO } from '@/modules/authors';
+import { CategoriesResponseDTO } from '@/modules/categories';
+import { LanguageResponseDTO } from '@/modules/languages';
+
 import { CreateBookRequestDto } from './create-book-request.dto';
 
 export class BookResponseDTO extends CreateBookRequestDto {
@@ -12,24 +16,6 @@ export class BookResponseDTO extends CreateBookRequestDto {
   })
   @AutoMap()
   id: string;
-
-  @ApiProperty({
-    required: true,
-  })
-  @AutoMap()
-  language: any;
-
-  @ApiProperty({
-    required: true,
-  })
-  @AutoMap()
-  authors: any[];
-
-  @ApiProperty({
-    required: true,
-  })
-  @AutoMap()
-  categories: any[];
 
   @ApiProperty({
     required: true,
@@ -67,6 +53,27 @@ export class BookResponseDTO extends CreateBookRequestDto {
   })
   @AutoMap()
   publicationDate: Date;
+
+  @ApiProperty({
+    required: true,
+    type: LanguageResponseDTO,
+  })
+  @AutoMap()
+  language: LanguageResponseDTO;
+
+  @ApiProperty({
+    required: true,
+    type: [AuthorsResponseDTO],
+  })
+  @AutoMap()
+  authors: AuthorsResponseDTO[];
+
+  @ApiProperty({
+    required: true,
+    type: [CategoriesResponseDTO],
+  })
+  @AutoMap()
+  categories: CategoriesResponseDTO[];
 
   @ApiProperty({
     required: true,

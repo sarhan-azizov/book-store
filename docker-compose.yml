@@ -33,7 +33,7 @@ services:
     env_file: .env
     volumes:
       - ./src:/app/src
-      - ./dist:/app/dist2
+      - ./dist:/app/dist
     ports:
       - "${PORT}:${PORT}"
       - "9229:9229"

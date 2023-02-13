@@ -23,6 +23,22 @@ export class BooksService {
     private bookRepository: Repository<BookEntity>,
   ) {}
 
+  async getBook(bookId: string): Promise<BookEntity | null> {
+    try {
+      return this.bookRepository.findOne({ where: { id: bookId } });
+    } catch (error) {
+      if (error instanceof CustomBusinessException) {
+        throw error;
+      }
+
+      throw new CustomDatabaseException(
+        'something went wrong',
+        EnumModules.USER,
+        error,
+      );
+    }
+  }
+
   async getBooks(
     query: BookQueryDTO,
   ): Promise<CommonPaginationResponseDTO<BookEntity>> {

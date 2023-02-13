@@ -1,4 +1,11 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  HttpStatus,
+  Param,
+  ParseUUIDPipe,
+  Query,
+} from '@nestjs/common';
 import {
   ApiResponse,
   ApiTags,
@@ -8,7 +15,13 @@ import {
 import { InjectMapper } from '@automapper/nestjs';
 import { Mapper } from '@automapper/core';
 
-import { Roles, EnumRoles, CommonPaginationResponseDTO } from '@/common';
+import {
+  Roles,
+  EnumRoles,
+  CommonPaginationResponseDTO,
+  CustomBusinessException,
+  EnumModules,
+} from '@/common';
 
 import { BookResponseDTO, BookQueryDTO } from './dto';
 import { BooksService } from './books.service';
@@ -46,6 +59,34 @@ export class BooksController {
         ),
         metaData: foundBooks.metaData,
       };
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  @Get('/:bookId')
+  @Roles([EnumRoles.USER])
+  @ApiOperation({ summary: 'return a book' })
+  @ApiResponse({
+    status: 200,
+    description: 'Return a book',
+    type: BookResponseDTO,
+  })
+  async getBook(
+    @Param('bookId', new ParseUUIDPipe({ version: '4' })) bookId: string,
+  ): Promise<BookResponseDTO> {
+    try {
+      const foundBook = await this.booksService.getBook(bookId);
+
+      if (!foundBook) {
+        throw new CustomBusinessException(
+          `the book was not found by id: ${bookId}`,
+          EnumModules.BOOK,
+          HttpStatus.NOT_FOUND,
+        );
+      }
+
+      return this.mapper.map(foundBook, BookEntity, BookResponseDTO);
     } catch (e) {
       throw e;
     }

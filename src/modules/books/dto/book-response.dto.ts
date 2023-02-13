@@ -34,6 +34,13 @@ export class BookResponseDTO extends CreateBookRequestDto {
 
   @ApiProperty({
     required: true,
+    type: 'string',
+  })
+  @AutoMap()
+  sku: string;
+
+  @ApiProperty({
+    required: true,
     type: 'number',
   })
   @AutoMap()

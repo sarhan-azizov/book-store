@@ -74,6 +74,10 @@ export class BookEntity {
   title: string;
 
   @AutoMap()
+  @Column({ length: 60, type: 'varchar', unique: true })
+  sku: string;
+
+  @AutoMap()
   @Column({ length: 2500, type: 'varchar' })
   description: string;
 

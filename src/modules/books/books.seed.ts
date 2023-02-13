@@ -16,7 +16,7 @@ export const booksSeed = async (queryRunner: QueryRunner): Promise<void> => {
   );
   const authors: AuthorEntity[] = await queryRunner.manager.find(AuthorEntity);
 
-  const books: BookEntity[] = new Array(20).fill(null).map(() =>
+  const books: BookEntity[] = new Array(20).fill(null).map((item, idx) =>
     Object.assign(new BookEntity(), {
       language: { id: languages[faker.datatype.number({ min: 0, max: 1 })].id },
       categories: [
@@ -27,6 +27,7 @@ export const booksSeed = async (queryRunner: QueryRunner): Promise<void> => {
       description: faker.random.words(100),
       cost: faker.commerce.price(5, 1000, ),
       pages: faker.datatype.number({ min: 30, max: 3000 }),
+      sku: `sku-${idx}`,
       publicationDate: faker.date.between(
         '2000-01-01T00:00:00.000Z',
         '2022-01-01T00:00:00.000Z',

@@ -2,7 +2,7 @@ import { Mapper } from '@automapper/core';
 import { InjectMapper } from '@automapper/nestjs';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, In } from 'typeorm';
+import { Repository, In, Raw } from 'typeorm';
 
 import {
   CustomBusinessException,
@@ -50,7 +50,25 @@ export class BooksService {
       }
 
       const [data, itemsCount] = await this.bookRepository.findAndCount({
-        where,
+        where: query.search
+          ? [
+              {
+                sku: In(
+                  query.search
+                    .split(',')
+                    .map((sku) => sku.toLowerCase().trim()),
+                ),
+                ...where,
+              },
+              {
+                title: Raw(
+                  (field) =>
+                    `LOWER(${field}) Like '%${query.search.toLowerCase()}%'`,
+                ),
+                ...where,
+              },
+            ]
+          : where,
         relations: {
           language: true,
           categories: true,

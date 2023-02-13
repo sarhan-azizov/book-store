@@ -31,4 +31,13 @@ export class BookQueryDTO extends CommonPaginationRequestDTO {
   @IsOptional()
   @IsString()
   categories: string;
+
+  @ApiProperty({
+    type: 'string',
+    required: false,
+    description: 'Example: SKU-1,SKU-2 or Harry Potter',
+  })
+  @IsOptional()
+  @IsString()
+  search: string;
 }

@@ -22,7 +22,8 @@ export class StoreDepartmentsDTO {
   @AutoMap()
   @ApiProperty({
     required: true,
-    type: 'uuid',
+    type: 'string',
+    format: 'uuid',
   })
   cityId: string;
 

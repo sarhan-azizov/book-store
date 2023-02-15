@@ -7,6 +7,7 @@ import { AuthRequestDTO, AuthResponseDTO } from './dto';
 import { CustomBusinessException, EnumModules } from '../../common';
 
 export type TTokenPayload = {
+  id: string;
   email: string;
   password: string;
   isAdmin: boolean;
@@ -37,6 +38,7 @@ export class AuthService {
       }
 
       const tokenPayload: TTokenPayload = {
+        id: String(foundUser?.id),
         email: authRequestDTO.email,
         password: authRequestDTO.password,
         isAdmin: Boolean(foundUser?.admin),

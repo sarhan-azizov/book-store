@@ -6,6 +6,7 @@ import {
   languagesSeed,
   categoriesSeed,
   authorsSeed,
+  storeDepartmentsSeed,
 } from '../modules';
 
 export class Seeds1673384735839 implements MigrationInterface {
@@ -13,6 +14,7 @@ export class Seeds1673384735839 implements MigrationInterface {
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await citiesSeed(queryRunner);
+    await storeDepartmentsSeed(queryRunner);
     await languagesSeed(queryRunner);
     await categoriesSeed(queryRunner);
     await authorsSeed(queryRunner);

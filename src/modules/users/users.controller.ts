@@ -6,10 +6,13 @@ import {
   HttpStatus,
   Param,
   Post,
+  Req,
 } from '@nestjs/common';
 import { DeleteResult } from 'typeorm';
 import { InjectMapper } from '@automapper/nestjs';
 import { Mapper } from '@automapper/core';
+import jwtDecode from 'jwt-decode';
+import { Request } from 'express';
 import {
   ApiBearerAuth,
   ApiNotFoundResponse,
@@ -27,6 +30,7 @@ import {
   EnumRoles,
   Roles,
 } from '@/common';
+import { TTokenPayload } from '@/modules/auth';
 
 import { CreateUserRequestDTO, UserResponseDTO } from './dto';
 import { UsersService } from './users.service';
@@ -40,6 +44,27 @@ export class UsersController {
     private readonly mapper: Mapper,
     private readonly usersService: UsersService,
   ) {}
+
+  @Get('/profile')
+  @ApiBearerAuth()
+  @Roles([EnumRoles.USER])
+  @ApiOperation({ summary: 'return user profile' })
+  @ApiResponse({
+    status: 200,
+    description: 'Return a user profile',
+    type: UserResponseDTO,
+  })
+  async getUserProfile(@Req() request: Request): Promise<UserResponseDTO> {
+    try {
+      const token = request.headers.authorization;
+      const parsedToken = jwtDecode<TTokenPayload>(String(token));
+      const foundUser = await this.usersService.getUser(parsedToken?.email);
+
+      return this.mapper.map(foundUser, UserEntity, UserResponseDTO);
+    } catch (e) {
+      throw e;
+    }
+  }
 
   @Post('/')
   @Roles([EnumRoles.PUBLIC])

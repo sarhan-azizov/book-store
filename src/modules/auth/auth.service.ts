@@ -6,6 +6,12 @@ import { UsersService } from '../users';
 import { AuthRequestDTO, AuthResponseDTO } from './dto';
 import { CustomBusinessException, EnumModules } from '../../common';
 
+export type TTokenPayload = {
+  email: string;
+  password: string;
+  isAdmin: boolean;
+};
+
 @Injectable()
 export class AuthService {
   constructor(
@@ -30,11 +36,13 @@ export class AuthService {
         );
       }
 
-      const token = this.jwtService.sign({
+      const tokenPayload: TTokenPayload = {
         email: authRequestDTO.email,
         password: authRequestDTO.password,
-        isAdmin: foundUser?.admin,
-      });
+        isAdmin: Boolean(foundUser?.admin),
+      };
+
+      const token = this.jwtService.sign(tokenPayload);
 
       return {
         access_token: token,

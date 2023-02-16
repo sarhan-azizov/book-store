@@ -38,6 +38,7 @@ export class OrderEntity {
   })
   @JoinColumn({
     name: 'storeDepartmentId',
+    foreignKeyConstraintName: 'ORDERS_storeDepartmentId_fkey',
   })
   storeDepartment: StoreDepartmentsEntity;
 
@@ -51,10 +52,12 @@ export class OrderEntity {
     joinColumn: {
       name: 'orderId',
       referencedColumnName: 'id',
+      foreignKeyConstraintName: 'BOOKS_ORDERS_orderId_fkey',
     },
     inverseJoinColumn: {
       name: 'bookId',
       referencedColumnName: 'id',
+      foreignKeyConstraintName: 'BOOKS_ORDERS_bookId_fkey',
     },
   })
   books: BookEntity[];

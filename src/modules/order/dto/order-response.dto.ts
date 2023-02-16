@@ -2,8 +2,10 @@ import { AutoMap } from '@automapper/classes';
 import { ApiProperty } from '@nestjs/swagger';
 
 import { EnumOrderStatus } from '../orders.type';
+import { BookResponseDTO } from '@/modules/books';
+import { StoreDepartmentsDTO } from '@/modules/store-departmens';
 
-export class CreateOrderResponseDTO {
+export class OrderResponseDTO {
   @AutoMap()
   @ApiProperty({
     required: true,
@@ -24,16 +26,16 @@ export class CreateOrderResponseDTO {
   @AutoMap()
   @ApiProperty({
     required: true,
+    type: [BookResponseDTO],
   })
-  books: string[];
+  books: BookResponseDTO[];
 
   @AutoMap()
   @ApiProperty({
     required: true,
-    type: 'string',
-    format: 'uuid',
+    type: StoreDepartmentsDTO,
   })
-  departmentStoreId: string;
+  departmentStore: StoreDepartmentsDTO;
 
   @AutoMap()
   @ApiProperty({

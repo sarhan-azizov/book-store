@@ -11,7 +11,11 @@ import {
 } from '@/common';
 
 import { OrderEntity } from './entities';
-import { CreateOrderRequestDTO, CreateOrderResponseDTO } from './dto';
+import {
+  CreateOrderRequestDTO,
+  CreateOrderResponseDTO,
+  OrderResponseDTO,
+} from './dto';
 import { EnumOrderStatus } from './orders.type';
 
 @Injectable()
@@ -53,6 +57,32 @@ export class OrdersService {
           }),
         },
       );
+    } catch (error) {
+      if (error instanceof CustomBusinessException) {
+        throw error;
+      }
+
+      throw new CustomDatabaseException(
+        'something went wrong',
+        EnumModules.USER,
+        error,
+      );
+    }
+  }
+
+  async getOrderHistory(userId: string): Promise<OrderEntity[]> {
+    try {
+      const orderHistory = await this.orderRepository.find({
+        where: {
+          userId,
+        },
+        relations: {
+          books: true,
+          storeDepartment: true,
+        },
+      });
+
+      return orderHistory;
     } catch (error) {
       if (error instanceof CustomBusinessException) {
         throw error;

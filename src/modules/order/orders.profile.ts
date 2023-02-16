@@ -4,14 +4,19 @@ import {
   mapFrom,
   mapWithArguments,
   Mapper,
+  mapWith,
 } from '@automapper/core';
 import { AutomapperProfile, InjectMapper } from '@automapper/nestjs';
 import { Injectable } from '@nestjs/common';
 
 import { UserEntity } from '@/modules/users';
-import { BookEntity } from '@/modules/books';
+import { BookEntity, BookResponseDTO } from '@/modules/books';
 
-import { CreateOrderRequestDTO, CreateOrderResponseDTO } from './dto';
+import {
+  CreateOrderRequestDTO,
+  CreateOrderResponseDTO,
+  OrderResponseDTO,
+} from './dto';
 import { OrderEntity } from './entities';
 
 @Injectable()
@@ -54,6 +59,19 @@ export class OrdersProfile extends AutomapperProfile {
         forMember(
           (dest) => dest.departmentStoreId,
           mapWithArguments((_source, { storeDepartment }) => storeDepartment),
+        ),
+      );
+      createMap(
+        mapper,
+        OrderEntity,
+        OrderResponseDTO,
+        forMember(
+          (destination) => destination.departmentStore,
+          mapFrom((source) => source.storeDepartment),
+        ),
+        forMember(
+          (destination) => destination.books,
+          mapWith(BookResponseDTO, BookEntity, (source) => source.books),
         ),
       );
     };

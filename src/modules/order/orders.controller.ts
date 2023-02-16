@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Req } from '@nestjs/common';
+import { Controller, Post, Body, Req, Get } from '@nestjs/common';
 import {
   ApiResponse,
   ApiTags,
@@ -13,7 +13,11 @@ import { Request } from 'express';
 import { Roles, EnumRoles } from '@/common';
 import { TTokenPayload } from '@/modules/auth';
 
-import { CreateOrderRequestDTO, CreateOrderResponseDTO } from './dto';
+import {
+  CreateOrderRequestDTO,
+  CreateOrderResponseDTO,
+  OrderResponseDTO,
+} from './dto';
 import { OrdersService } from './orders.service';
 import { OrderEntity } from './entities';
 
@@ -49,6 +53,29 @@ export class OrdersController {
       );
 
       return createdOrder;
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  @Get('/')
+  @Roles([EnumRoles.USER])
+  @ApiOperation({ summary: 'get users order history' })
+  @ApiResponse({
+    status: 201,
+    description: 'get users order history',
+    type: OrderResponseDTO,
+  })
+  async getOrderHistory(@Req() request: Request): Promise<OrderResponseDTO[]> {
+    try {
+      const token = request.headers.authorization;
+      const parsedToken = jwtDecode<TTokenPayload>(String(token));
+
+      const orderHistory = await this.ordersService.getOrderHistory(
+        parsedToken.id,
+      );
+
+      return this.mapper.mapArray(orderHistory, OrderEntity, OrderResponseDTO);
     } catch (e) {
       throw e;
     }

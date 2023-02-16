@@ -109,9 +109,12 @@ export class CustomBusinessException extends CustomException {
 export const DBConstraintsKeys = {
   U__USER__email: 'USERS_email_u',
   FK__USER__cityId: 'USERS_cityId_fkey',
+  FK__ORDERS__storeDepartmentId: 'ORDERS_storeDepartmentId_fkey',
 };
 
 const DBConstraints: { [key: string]: string } = {
   [DBConstraintsKeys.U__USER__email]: 'provided email already exist',
   [DBConstraintsKeys.FK__USER__cityId]: 'provided cityId does not exist',
+  [DBConstraintsKeys.FK__ORDERS__storeDepartmentId]:
+    'provided store department does not exist',
 };

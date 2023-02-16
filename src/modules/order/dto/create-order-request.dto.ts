@@ -24,7 +24,6 @@ export class CreateOrderRequestDTO {
   @AutoMap()
   @ApiProperty({
     required: true,
-    isArray: true,
     example: ['50d46b4d-aa5b-4fbd-88ed-9fa1c44e6a54'],
   })
   @IsUUID('4', { each: true })

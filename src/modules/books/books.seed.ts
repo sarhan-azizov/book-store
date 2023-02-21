@@ -25,7 +25,7 @@ export const booksSeed = async (queryRunner: QueryRunner): Promise<void> => {
       authors: [{ id: authors[faker.datatype.number({ min: 0, max: 9 })].id }],
       title: faker.random.words(),
       description: faker.random.words(100),
-      cost: faker.commerce.price(5, 1000, ),
+      cost: faker.commerce.price(5, 1000),
       pages: faker.datatype.number({ min: 30, max: 3000 }),
       sku: `sku-${idx}`,
       publicationDate: faker.date.between(

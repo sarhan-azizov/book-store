@@ -47,6 +47,10 @@ export class OrdersProfile extends AutomapperProfile {
           (dest) => dest.status,
           mapWithArguments((_source, { status }) => status),
         ),
+        forMember(
+          (dest) => dest.cost,
+          mapWithArguments((_source, { cost }) => cost),
+        ),
       );
       createMap(
         mapper,

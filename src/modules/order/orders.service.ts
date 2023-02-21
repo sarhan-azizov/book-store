@@ -2,8 +2,9 @@ import { Mapper } from '@automapper/core';
 import { InjectMapper } from '@automapper/nestjs';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, In } from 'typeorm';
 
+import { BooksService } from '@/modules/books';
 import {
   CustomBusinessException,
   CustomDatabaseException,
@@ -11,11 +12,7 @@ import {
 } from '@/common';
 
 import { OrderEntity } from './entities';
-import {
-  CreateOrderRequestDTO,
-  CreateOrderResponseDTO,
-  OrderResponseDTO,
-} from './dto';
+import { CreateOrderRequestDTO, CreateOrderResponseDTO } from './dto';
 import { EnumOrderStatus } from './orders.type';
 
 @Injectable()
@@ -23,6 +20,7 @@ export class OrdersService {
   constructor(
     @InjectMapper()
     private readonly mapper: Mapper,
+    private readonly booksService: BooksService,
     @InjectRepository(OrderEntity)
     private orderRepository: Repository<OrderEntity>,
   ) {}
@@ -32,6 +30,13 @@ export class OrdersService {
     userId: string,
   ): Promise<CreateOrderResponseDTO> {
     try {
+      const books = await this.booksService.getBooksById(
+        createOrderRequestDTO.books,
+      );
+      const booksTotalCost = books.reduce((result, book) => {
+        return result + Number(book.cost.replace('$', ''));
+      }, 0);
+
       const newOrder = this.mapper.map(
         createOrderRequestDTO,
         CreateOrderRequestDTO,
@@ -39,6 +44,7 @@ export class OrdersService {
         {
           extraArgs: () => ({
             userId,
+            cost: `$${booksTotalCost}`,
             status: EnumOrderStatus.PENDING,
           }),
         },
@@ -78,7 +84,9 @@ export class OrdersService {
         },
         relations: {
           books: true,
-          storeDepartment: true,
+          storeDepartment: {
+            city: true,
+          },
         },
       });
 

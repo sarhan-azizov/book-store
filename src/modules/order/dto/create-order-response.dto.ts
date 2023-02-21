@@ -46,6 +46,13 @@ export class CreateOrderResponseDTO {
   @ApiProperty({
     required: true,
     type: 'string',
+  })
+  cost: string;
+
+  @AutoMap()
+  @ApiProperty({
+    required: true,
+    type: 'string',
     example: '2022-11-28T16:57:34.356Z',
   })
   createdAt: Date;

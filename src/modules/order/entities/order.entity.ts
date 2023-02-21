@@ -29,6 +29,7 @@ export class OrderEntity {
   })
   @JoinColumn({
     name: 'userId',
+    foreignKeyConstraintName: 'ORDERS_userId_fkey',
   })
   user: UserEntity;
 
@@ -65,6 +66,10 @@ export class OrderEntity {
   @AutoMap()
   @Column({ length: 20, type: 'varchar' })
   status: string;
+
+  @AutoMap()
+  @Column({ type: 'money' })
+  cost: string;
 
   @AutoMap()
   @CreateDateColumn()

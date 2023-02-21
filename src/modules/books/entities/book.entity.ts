@@ -83,7 +83,7 @@ export class BookEntity {
 
   @AutoMap()
   @Column({ type: 'money' })
-  cost: number;
+  cost: string;
 
   @AutoMap()
   @Column({ type: 'smallint' })

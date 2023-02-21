@@ -39,6 +39,22 @@ export class BooksService {
     }
   }
 
+  async getBooksById(books: string[]): Promise<BookEntity[]> {
+    try {
+      return this.bookRepository.find({ where: { id: In(books) } });
+    } catch (error) {
+      if (error instanceof CustomBusinessException) {
+        throw error;
+      }
+
+      throw new CustomDatabaseException(
+        'something went wrong',
+        EnumModules.USER,
+        error,
+      );
+    }
+  }
+
   async getBooks(
     query: BookQueryDTO,
   ): Promise<CommonPaginationResponseDTO<BookEntity>> {

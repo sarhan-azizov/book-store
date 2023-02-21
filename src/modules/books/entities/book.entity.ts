@@ -8,11 +8,15 @@ import {
   ManyToMany,
   ManyToOne,
   JoinTable,
+  OneToMany,
 } from 'typeorm';
 
-import { LanguageEntity } from '@/modules/languages';
-import { CategoryEntity } from '@/modules/categories';
-import { AuthorEntity } from '@/modules/authors';
+import {
+  LanguageEntity,
+  CategoryEntity,
+  AuthorEntity,
+  OrdersBooksEntity,
+} from '@/modules';
 
 @Entity('BOOKS')
 export class BookEntity {
@@ -69,6 +73,13 @@ export class BookEntity {
   })
   language: LanguageEntity;
 
+  @AutoMap(() => [OrdersBooksEntity])
+  @OneToMany(
+    () => OrdersBooksEntity,
+    (ordersBooksEntity) => ordersBooksEntity.book,
+  )
+  ordersBooks: OrdersBooksEntity[];
+
   @AutoMap()
   @Column({ length: 120, type: 'varchar' })
   title: string;
@@ -88,6 +99,12 @@ export class BookEntity {
   @AutoMap()
   @Column({ type: 'smallint' })
   pages: number;
+
+  @OneToMany(
+    () => OrdersBooksEntity,
+    (ordersBooksEntity) => ordersBooksEntity.book,
+  )
+  public ordersToBook: OrdersBooksEntity[];
 
   @AutoMap()
   @Column()

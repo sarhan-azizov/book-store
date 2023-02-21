@@ -17,7 +17,7 @@ import {
   CreateOrderResponseDTO,
   OrderResponseDTO,
 } from './dto';
-import { OrderEntity } from './entities';
+import { OrderEntity, OrdersBooksEntity } from './entities';
 
 @Injectable()
 export class OrdersProfile extends AutomapperProfile {
@@ -32,9 +32,14 @@ export class OrdersProfile extends AutomapperProfile {
         CreateOrderRequestDTO,
         OrderEntity,
         forMember(
-          (destination) => destination.books,
-          mapFrom(({ books }) =>
-            books.map((id) => Object.assign(new BookEntity(), { id })),
+          (destination) => destination.ordersBooks,
+          mapWithArguments((source, { books }: { books: BookEntity[] }) =>
+            source.books.map((id) =>
+              Object.assign(new OrdersBooksEntity(), {
+                book: Object.assign(new BookEntity(), { id }),
+                cost: (books || []).find((book) => book.id === id)?.cost,
+              }),
+            ),
           ),
         ),
         forMember(
@@ -75,7 +80,9 @@ export class OrdersProfile extends AutomapperProfile {
         ),
         forMember(
           (destination) => destination.books,
-          mapWith(BookResponseDTO, BookEntity, (source) => source.books),
+          mapWith(BookResponseDTO, BookEntity, (source) =>
+            source.ordersBooks.map((ordersBook) => ordersBook.book),
+          ),
         ),
       );
     };

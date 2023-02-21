@@ -9,6 +9,8 @@ import {
   CategoryEntity,
   LanguageEntity,
   StoreDepartmentsEntity,
+  OrdersBooksEntity,
+  OrderEntity,
 } from '../modules';
 import { Seeds1673384735839 } from './seeds';
 
@@ -28,6 +30,8 @@ export default new DataSource({
     CategoryEntity,
     LanguageEntity,
     StoreDepartmentsEntity,
+    OrdersBooksEntity,
+    OrderEntity,
   ],
   migrations: [Seeds1673384735839],
 });

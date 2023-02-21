@@ -9,9 +9,14 @@ import {
   ManyToOne,
   JoinTable,
   JoinColumn,
+  OneToMany,
 } from 'typeorm';
 
-import { BookEntity, StoreDepartmentsEntity, UserEntity } from '@/modules';
+import {
+  OrdersBooksEntity,
+  StoreDepartmentsEntity,
+  UserEntity,
+} from '@/modules';
 
 @Entity('ORDERS')
 export class OrderEntity {
@@ -43,25 +48,13 @@ export class OrderEntity {
   })
   storeDepartment: StoreDepartmentsEntity;
 
-  @AutoMap(() => [BookEntity])
-  @ManyToMany(() => BookEntity, {
-    cascade: true,
-    nullable: false,
-  })
-  @JoinTable({
-    name: 'BOOKS_ORDERS',
-    joinColumn: {
-      name: 'orderId',
-      referencedColumnName: 'id',
-      foreignKeyConstraintName: 'BOOKS_ORDERS_orderId_fkey',
-    },
-    inverseJoinColumn: {
-      name: 'bookId',
-      referencedColumnName: 'id',
-      foreignKeyConstraintName: 'BOOKS_ORDERS_bookId_fkey',
-    },
-  })
-  books: BookEntity[];
+  @AutoMap(() => [OrdersBooksEntity])
+  @OneToMany(
+    () => OrdersBooksEntity,
+    (ordersBooksEntity) => ordersBooksEntity.order,
+    { cascade: true },
+  )
+  ordersBooks: OrdersBooksEntity[];
 
   @AutoMap()
   @Column({ length: 20, type: 'varchar' })

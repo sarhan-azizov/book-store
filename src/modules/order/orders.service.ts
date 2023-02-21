@@ -33,9 +33,19 @@ export class OrdersService {
       const books = await this.booksService.getBooksById(
         createOrderRequestDTO.books,
       );
-      const booksTotalCost = books.reduce((result, book) => {
-        return result + Number(book.cost.replace('$', ''));
-      }, 0);
+
+      const booksTotalCost = createOrderRequestDTO.books.reduce(
+        (result, bookId) => {
+          const foundBook = books.find((book) => book.id === bookId);
+
+          if (foundBook) {
+            return result + Number(foundBook.cost.replace('$', ''));
+          }
+
+          return result;
+        },
+        0,
+      );
 
       const newOrder = this.mapper.map(
         createOrderRequestDTO,
@@ -44,6 +54,7 @@ export class OrdersService {
         {
           extraArgs: () => ({
             userId,
+            books,
             cost: `$${booksTotalCost}`,
             status: EnumOrderStatus.PENDING,
           }),
@@ -83,7 +94,9 @@ export class OrdersService {
           userId,
         },
         relations: {
-          books: true,
+          ordersBooks: {
+            book: true,
+          },
           storeDepartment: {
             city: true,
           },

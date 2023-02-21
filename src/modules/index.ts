@@ -11,4 +11,4 @@ export {
 } from './store-departmens';
 export { AuthModule } from './auth';
 export { booksSeed, BookEntity, BooksModule } from './books';
-export { OrdersModule } from './order';
+export { OrdersModule, OrdersBooksEntity, OrderEntity } from './order';
